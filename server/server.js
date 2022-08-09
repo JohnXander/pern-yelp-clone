@@ -90,7 +90,7 @@ app.delete("/api/v1/restaurants/:id", async (req, res) => {
     }
 })
 
-const port = process.env.PORT || 3001
+const port = process.env.PORT || 3005
 
 app.listen(3005, () => {
     console.log(`server is up and listening on port ${port}`)
