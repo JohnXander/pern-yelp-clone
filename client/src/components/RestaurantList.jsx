@@ -3,6 +3,8 @@ import RestaurantFinder from '../apis/RestaurantFinder'
 import { RestaurantsContext } from '../context/RestaurantsContext'
 import { useNavigate } from 'react-router-dom'
 
+import StarRating from './StarRating'
+
 const RestaurantList = (props) => {
     const { restaurants, setRestaurants } = useContext(RestaurantsContext)
     let navigate = useNavigate()
@@ -39,6 +41,19 @@ const RestaurantList = (props) => {
 
     const handleRestaurantSelect = (id) => navigate(`/restaurants/${id}`)
 
+    const renderRating = (rest) => {
+        if (!rest.count) {
+            return <span className="text-warning">0 reviews</span>
+        }
+        
+        return (
+            <>
+                <StarRating rating={rest.id} />
+                <span className="text-warning ml-1">({rest.count})</span>
+            </>
+        )
+    }
+
   return (
       <div className='list-group'>
           <table className="table table-hover table-dark">
@@ -62,23 +77,23 @@ const RestaurantList = (props) => {
                             <td>{rest.name}</td>
                             <td>{rest.location}</td>
                             <td>{"$".repeat(rest.price_range)}</td>
-                            <td>reviews</td>
-                              <td>
-                                  <button
-                                      onClick={(e) => handleUpdate(e, rest.id)}
-                                      className="btn btn-warning"
-                                  >
-                                      Update
-                                  </button>
-                              </td>
-                              <td>
-                                  <button
-                                      onClick={(e) => handleDelete(e, rest.id)}
-                                      className="btn btn-danger"
-                                  >
-                                      Delete
-                                  </button>
-                              </td>
+                            <td>{renderRating(rest)}</td>
+                            <td>
+                                <button
+                                    onClick={(e) => handleUpdate(e, rest.id)}
+                                    className="btn btn-warning"
+                                >
+                                    Update
+                                </button>
+                            </td>
+                            <td>
+                                <button
+                                    onClick={(e) => handleDelete(e, rest.id)}
+                                    className="btn btn-danger"
+                                >
+                                    Delete
+                                </button>
+                            </td>
                         </tr>
                           
                       )
